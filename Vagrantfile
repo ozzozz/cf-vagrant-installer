@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, host: 80, guest: 80
   config.vm.network :forwarded_port, host: 8080, guest: 8080
   config.vm.network :forwarded_port, host: 8181, guest: 8181
+  config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
 
   config.vm.provider :virtualbox do |v, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64.box"
