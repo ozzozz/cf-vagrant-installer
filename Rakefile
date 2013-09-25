@@ -1,5 +1,6 @@
 require 'rake'
 require 'rake/testtask'
+require 'fileutils'
 
 task :default => :test
 
@@ -21,6 +22,7 @@ namespace :host do
 end
 
 namespace :cf do
+  DEFAULT_BUILDPACKS = %w(ruby java nodejs)
   # -------------------------------------------------------------
   # Guest tasks
 
@@ -48,10 +50,16 @@ namespace :cf do
   end
 
   desc "bootstrap all cf components"
-  task :bootstrap => [ :bundle_install, :init_uaa,
-        :init_dea, :init_cloud_controller_ng,
-        :init_gorouter, :setup_warden,
-        :start_cf, :instructions ]
+  task :bootstrap => [ :bundle_install,
+                       :init_uaa,
+                       :init_dea,
+                       :init_cloud_controller_ng,
+                       :init_gorouter,
+                       :setup_warden,
+                       :setup_custom_buildpacks,
+                       :start_cf,
+                       :instructions
+                     ]
 
   desc "Install required gems for all ruby components"
   task :bundle_install do
@@ -94,6 +102,31 @@ namespace :cf do
     system "bundle exec rake setup:bin[/vagrant/custom_config_files/warden/warden/test_vm.yml]"
   end
 
+  desc "Set up custom buildpacks"
+  task :setup_custom_buildpacks do
+    source_dir = 'custom-buildpacks'
+    target_dir = path('dea_ng/buildpacks/vendor')
+
+    custom_buildpacks = Dir.glob(File.join(source_dir, '*')).
+      find_all{ |p| File.directory?(p) }.
+      map{ |p| File.basename(p) }
+    target_buildpacks = Dir.glob(File.join(target_dir, '*')).
+      find_all{ |p| File.directory?(p) }.
+      map{ |p| File.basename(p) }
+    # Cleaning up old buildpacks
+    (target_buildpacks - DEFAULT_BUILDPACKS).each do |b|
+      puts "Removing #{b} buildpack"
+      FileUtils.rm_rf(File.join(target_dir, b))
+    end
+
+    custom_buildpacks.each do |b|
+      puts "Deploying custom buildpack #{b}"
+      source = File.join(source_dir, b)
+      target = File.join(target_dir, b)
+      FileUtils.cp_r(source, target)
+    end
+  end
+
   desc "Set target, login and create organization and spaces. CF must be up and running"
   task :init_cf_cli do
     puts "==> Initializing cf CLI"
@@ -108,8 +141,7 @@ namespace :cf do
 
   desc "Run cf upstart job"
   task :start_cf => :copy_upstart_init_scripts do
-    puts "==> Starting cf upstart Job"
-    system "sudo initctl start cf"
+    system "sudo initctl restart cf"
   end
 
   desc "Print instructions"
@@ -118,21 +150,18 @@ msg = <<-EOS
 
 *** Running Cloud Foundry and first steps ***
 
-- Run Cloud Foundry:
-  $ sudo initctl start cf
-
-- Wait until UAA finishes starting. You can check the status by running:
-  $ tail -f /vagrant/logs/uaa.log
-
 - Initialize the cf CLI and create a default organization, space, etc:
   $ rake cf:init_cf_cli"
+(If it fails wait a few seconds. The UAA may be loading)
 
 - Push a very simple ruby sinatra app:
-  $ cd /vagrant/test-apps/sinatra-test-app/
-  $ cf push   (follow the defaults)
+  $ cd test/fixture/apps/sinatra
+  $ cf push
 
 - Test it:
-  $ curl -v hello.vcap.me  (It should print 'Hello!')
+  $ curl -v hello.192.168.12.34.xip.io
+  <h3>Sinatra Test app for CF Vagrant Installer</h3>
+      Hello from 0.0.0.0:61007! <br/>
 
 EOS
 puts msg
