@@ -37,7 +37,9 @@ namespace :cf do
   def bundle_install component_path
     puts "==> Runing bundle install at #{component_path}"
     Dir.chdir component_path
-    system "bundle install"
+    unless system "bundle install"
+      raise "Bundle install at #{component_path} failed"
+    end
   end
 
   def cf_ruby_components
