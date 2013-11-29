@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.hostname = "cf"
   config.vm.network :private_network, ip: "192.168.12.34"
+  config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
 
   config.vm.provider :virtualbox do |v, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64.box"
