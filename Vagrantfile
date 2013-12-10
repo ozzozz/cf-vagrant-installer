@@ -55,10 +55,10 @@ Vagrant.configure("2") do |config|
       'rbenv' => {
         'user_installs' => [ {
           'user' => 'vagrant',
-          'global' => '1.9.3-p484',
-          'rubies' => [ '1.9.3-p484' ],
+          'global' => '1.9.3-p392',
+          'rubies' => [ '1.9.3-p392' ],
           'gems' => {
-            '1.9.3-p484' => [
+            '1.9.3-p392' => [
               { 'name' => 'bundler' }
             ]
           },
@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
       'rbenv-alias' => {
         'user_rubies' => [ {
           'user' => 'vagrant',
-          'installed' => '1.9.3-p484',
+          'installed' => '1.9.3-p392',
           'alias' => '1.9.3'
         } ]
       },
