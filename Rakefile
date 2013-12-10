@@ -161,7 +161,7 @@ msg = <<-EOS
   $ cf push
 
 - Test it:
-  $ curl -v hello.192.168.12.34.xip.io
+  $ curl -v hello.10.0.2.100.xip.io
   <h3>Sinatra Test app for CF Vagrant Installer</h3>
       Hello from 0.0.0.0:61007! <br/>
 

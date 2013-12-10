@@ -1,19 +1,19 @@
 ---
-local_route: 192.168.12.34.xip.io
+local_route: 10.0.2.100.xip.io
 port: 8181
 pid_filename: /tmp/cloud_controller.pid
 nats_uri: nats://127.0.0.1:4222
 message_bus_uri: nats://127.0.0.1:4222
 
 external_domain:
-  - api.192.168.12.34.xip.io
+  - api.10.0.2.100.xip.io
 
 bootstrap_admin_email: no-one@no-where.com
 
 system_domain_organization: my-org-name
-system_domain: 192.168.12.34.xip.io
+system_domain: 10.0.2.100.xip.io
 app_domains:
-  - 192.168.12.34.xip.io
+  - 10.0.2.100.xip.io
 
 info:
   name: "Cloudfoundry by https://github.com/Altoros/cf-vagrant-installer"
@@ -37,7 +37,7 @@ db:
   pool_timeout: 10
 
 uaa:
-  url: "http://192.168.12.34.xip.io:8080/uaa"
+  url: "http://10.0.2.100.xip.io:8080/uaa"
   resource_id: "cloud_controller"
   symmetric_secret: "tokensecret"
 

@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "cf-install"
   config.vm.box = "precise64"
   config.vm.hostname = "cf"
-  config.vm.network :private_network, ip: "192.168.12.34"
+  config.vm.network :private_network, ip: "10.0.2.100"
   config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
 
   config.vm.provider :virtualbox do |v, override|
@@ -54,10 +54,10 @@ Vagrant.configure("2") do |config|
       'rbenv' => {
         'user_installs' => [ {
           'user' => 'vagrant',
-          'global' => '1.9.3-p392',
-          'rubies' => [ '1.9.3-p392' ],
+          'global' => '1.9.3-p484',
+          'rubies' => [ '1.9.3-p484' ],
           'gems' => {
-            '1.9.3-p392' => [
+            '1.9.3-p484' => [
               { 'name' => 'bundler' }
             ]
           },
@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
       'rbenv-alias' => {
         'user_rubies' => [ {
           'user' => 'vagrant',
-          'installed' => '1.9.3-p392',
+          'installed' => '1.9.3-p484',
           'alias' => '1.9.3'
         } ]
       },

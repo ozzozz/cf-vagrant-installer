@@ -35,11 +35,11 @@ class TestPushAnApp < CustomMiniTest::Unit::TestCase
 
   def test_we_can_push_a_ruby_app
     assert push_test_app :sinatra
-    assert_app_is_up 'http://hello.192.168.12.34.xip.io'
+    assert_app_is_up 'http://hello.10.0.2.100.xip.io'
   end
 
   def test_we_can_push_a_nodejs_app
     assert push_test_app :nodejs
-    assert_app_is_up 'http://hello-node.192.168.12.34.xip.io'
+    assert_app_is_up 'http://hello-node.10.0.2.100.xip.io'
   end
 end

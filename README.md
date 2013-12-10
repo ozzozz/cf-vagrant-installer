@@ -118,7 +118,7 @@ Using manifest file manifest.yml
 
 Creating hello... OK
 
-Binding hello.192.168.12.34.xip.io to hello... OK
+Binding hello.10.0.2.100.xip.io to hello... OK
 Uploading hello... OK
 Preparing to start hello... OK
 Checking status of app 'hello'...
@@ -126,7 +126,7 @@ Checking status of app 'hello'...
   1 of 1 instances running (1 running) # This may vary
 ```
 
-Open a browser and check if the app has been deployed: hello.192.168.12.34.xip.io
+Open a browser and check if the app has been deployed: hello.10.0.2.100.xip.io
 
 
 ```
@@ -144,7 +144,7 @@ cf apps
 Getting applications in myspace... OK
 
 name    status    usage      url
-hello   running   1 x 256M   hello.192.168.12.34.xip.io
+hello   running   1 x 256M   hello.10.0.2.100.xip.io
 ```
 There is also a node.js sample app in test/fixtures/apps
 
