@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
 
     chef.add_recipe 'rbenv-alias'
     chef.add_recipe 'rbenv-sudo'
+    chef.add_recipe 'cloudfoundry::cloud_controller'
     chef.add_recipe 'cloudfoundry::warden'
     chef.add_recipe 'cloudfoundry::dea'
     chef.add_recipe 'cloudfoundry::uaa'
